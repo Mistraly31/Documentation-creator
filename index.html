@@ -2,7 +2,6 @@
 <html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYSTEM CREATOR</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -10,108 +9,118 @@
 <body>
 
     <nav class="top-nav">
-        <button id="theme-toggle">MODO LUZ/OSCURO</button>
+        <button id="theme-toggle">CAMBIAR TEMA</button>
     </nav>
 
     <div id="hero-header">
         <h1 class="main-title">SYSTEM</h1>
     </div>
 
-    <div id="main-menu" class="container">
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="showSection('tarjeta-section')">TARJETA</button>
-            <button class="menu-btn" onclick="showSection('documento-section')">DOCUMENTO</button>
-            <button class="menu-btn" onclick="showSection('perfil-section')">PERFIL</button>
-        </div>
+    <div id="main-menu" class="menu-container">
+        <button class="menu-btn" onclick="openSection('section-tarjeta')">TARJETA</button>
+        <button class="menu-btn" onclick="openSection('section-documento')">DOCUMENTO</button>
+        <button class="menu-btn" onclick="openSection('section-perfil')">PERFIL</button>
     </div>
 
-    <section id="tarjeta-section" class="form-section hidden">
-        <div class="editor-layout">
-            <div class="form-container">
+    <section id="section-tarjeta" class="app-section hidden">
+        <div class="layout">
+            <div class="form-side">
                 <h2>Datos Tarjeta</h2>
-                <input type="file" id="t-img-input" accept="image/*">
-                <input type="text" id="t-nombre" placeholder="Nombre" onkeyup="syncText('t-nombre', 'vt-nombre')">
-                <input type="text" id="t-edad" placeholder="Edad" onkeyup="syncText('t-edad', 'vt-edad')">
-                <input type="text" id="t-sexo" placeholder="Sexo" onkeyup="syncText('t-sexo', 'vt-sexo')">
-                <input type="text" id="t-raza" placeholder="Raza" onkeyup="syncText('t-raza', 'vt-raza')">
-                <input type="text" id="t-id" placeholder="Número ID" onkeyup="syncText('t-id', 'vt-id')">
-                <input type="text" id="t-residencia" placeholder="Residencia" onkeyup="syncText('t-residencia', 'vt-residencia')">
-                <div class="nav-btns">
-                    <button class="btn-save" onclick="downloadImg('tarjeta-preview')">DESCARGAR IMAGEN</button>
-                    <button class="btn-back" onclick="goHome()">VOLVER</button>
+                <input type="file" id="in-t-img" accept="image/*">
+                <input type="text" id="in-t-nom" placeholder="Nombre">
+                <input type="text" id="in-t-eda" placeholder="Edad">
+                <input type="text" id="in-t-sex" placeholder="Sexo">
+                <input type="text" id="in-t-raz" placeholder="Raza">
+                <input type="text" id="in-t-id" placeholder="Número ID">
+                <input type="text" id="in-t-res" placeholder="Residencia">
+                <div class="btns">
+                    <button class="create-btn" onclick="takeSnapshot('view-tarjeta')">CREAR IMAGEN</button>
+                    <button class="back-btn" onclick="goHome()">VOLVER</button>
                 </div>
             </div>
-            <div class="preview-area">
-                <div id="tarjeta-preview" class="dni-card">
-                    <div class="dni-photo" id="t-photo-div"></div>
-                    <div class="dni-info">
-                        <p><strong>NAME:</strong> <span id="vt-nombre">...</span></p>
-                        <p><strong>AGE:</strong> <span id="vt-edad">...</span></p>
-                        <p><strong>SEX:</strong> <span id="vt-sexo">...</span></p>
-                        <p><strong>RACE:</strong> <span id="vt-raza">...</span></p>
-                        <p><strong>ID:</strong> <span id="vt-id">...</span></p>
-                        <p><strong>RES:</strong> <span id="vt-residencia">...</span></p>
-                    </div>
+            <div id="view-tarjeta" class="dni-box">
+                <div class="dni-photo" id="out-t-img"></div>
+                <div class="dni-text">
+                    <p><b>NOMBRE:</b> <span id="out-t-nom"></span></p>
+                    <p><b>EDAD:</b> <span id="out-t-eda"></span></p>
+                    <p><b>SEXO:</b> <span id="out-t-sex"></span></p>
+                    <p><b>RAZA:</b> <span id="out-t-raz"></span></p>
+                    <p><b>ID:</b> <span id="out-t-id"></span></p>
+                    <p><b>RES:</b> <span id="out-t-res"></span></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="documento-section" class="form-section hidden">
-        <div class="editor-layout">
-            <div class="form-container">
+    <section id="section-documento" class="app-section hidden">
+        <div class="layout">
+            <div class="form-side">
                 <h2>Datos Documento</h2>
-                <input type="text" id="d-titulo" placeholder="Título" onkeyup="syncText('d-titulo', 'vd-titulo')">
-                <input type="text" id="d-fecha" placeholder="Fecha" onkeyup="syncText('d-fecha', 'vd-fecha')">
-                <input type="text" id="d-ubicacion" placeholder="Ubicación" onkeyup="syncText('d-ubicacion', 'vd-ubicacion')">
-                <input type="text" id="d-autor" placeholder="Autor" onkeyup="syncText('d-autor', 'vd-autor')">
-                <textarea id="d-texto" placeholder="Contenido..." onkeyup="syncText('d-texto', 'vd-texto')"></textarea>
-                <div class="nav-btns">
-                    <button class="btn-save" onclick="downloadImg('documento-preview')">DESCARGAR IMAGEN</button>
-                    <button class="btn-back" onclick="goHome()">VOLVER</button>
+                <input type="text" id="in-d-tit" placeholder="Título">
+                <input type="text" id="in-d-fec" placeholder="Fecha">
+                <input type="text" id="in-d-ubi" placeholder="Ubicación">
+                <input type="text" id="in-d-aut" placeholder="Autor">
+                <textarea id="in-d-tex" placeholder="Escribe el texto..."></textarea>
+                <div class="btns">
+                    <button class="create-btn" onclick="takeSnapshot('view-documento')">CREAR IMAGEN</button>
+                    <button class="back-btn" onclick="goHome()">VOLVER</button>
                 </div>
             </div>
-            <div class="preview-area">
-                <div id="documento-preview" class="doc-paper">
-                    <h1 id="vd-titulo">TÍTULO</h1>
-                    <div class="doc-meta">
-                        <span id="vd-fecha"></span> | <span id="vd-ubicacion"></span> | <span id="vd-autor"></span>
+            <div id="view-documento" class="paper-box">
+                <h1 id="out-d-tit">TÍTULO</h1>
+                <p class="meta"><span id="out-d-fec"></span> | <span id="out-d-ubi"></span> | <span id="out-d-aut"></span></p>
+                <hr>
+                <div id="out-d-tex" class="paper-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-perfil" class="app-section hidden">
+        <div class="layout">
+            <div class="form-side">
+                <h2>Datos Perfil</h2>
+                <input type="file" id="in-p-img" accept="image/*">
+                <input type="text" id="in-p-nom" placeholder="Nombre">
+                <input type="text" id="in-p-eda" placeholder="Edad">
+                <input type="text" id="in-p-sex" placeholder="Sexo">
+                <input type="text" id="in-p-raz" placeholder="Raza">
+                <input type="text" id="in-p-id" placeholder="ID">
+                <input type="text" id="in-p-res" placeholder="Residencia">
+                <input type="text" id="in-p-tra" placeholder="Trabajo">
+                <input type="text" id="in-p-car" placeholder="Cargos">
+                <textarea id="in-p-inf" placeholder="Información Adicional"></textarea>
+                <div class="btns">
+                    <button class="create-btn" onclick="takeSnapshot('view-perfil')">CREAR IMAGEN</button>
+                    <button class="back-btn" onclick="goHome()">VOLVER</button>
+                </div>
+            </div>
+            <div id="view-perfil" class="pc-box">
+                <div class="pc-bar">SYSTEM_USER_INTERFACE_OS</div>
+                <div class="pc-main">
+                    <div class="pc-left">
+                        <div class="pc-photo" id="out-p-img"></div>
+                        <h3 id="out-p-nom">USER</h3>
+                        <p id="out-p-tra" style="color:#0f0"></p>
                     </div>
-                    <hr>
-                    <div id="vd-texto" class="doc-body">...</div>
+                    <div class="pc-right">
+                        <div class="grid">
+                            <p><b>EDAD:</b> <span id="out-p-eda"></span></p>
+                            <p><b>SEXO:</b> <span id="out-p-sex"></span></p>
+                            <p><b>RAZA:</b> <span id="out-p-raz"></span></p>
+                            <p><b>ID:</b> <span id="out-p-id"></span></p>
+                        </div>
+                        <p><b>RESIDENCIA:</b> <span id="out-p-res"></span></p>
+                        <p><b>CARGOS:</b> <span id="out-p-car"></span></p>
+                        <div class="extra-box">
+                            <b>ADICIONAL:</b>
+                            <p id="out-p-inf"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="perfil-section" class="form-section hidden">
-        <div class="editor-layout">
-            <div class="form-container">
-                <h2>Datos Perfil</h2>
-                <input type="file" id="p-img-input" accept="image/*">
-                <input type="text" id="p-nombre" placeholder="Nombre" onkeyup="syncText('p-nombre', 'vp-nombre')">
-                <input type="text" id="p-edad" placeholder="Edad" onkeyup="syncText('p-edad', 'vp-edad')">
-                <input type="text" id="p-sexo" placeholder="Sexo" onkeyup="syncText('p-sexo', 'vp-sexo')">
-                <input type="text" id="p-raza" placeholder="Raza" onkeyup="syncText('p-raza', 'vp-raza')">
-                <input type="text" id="p-id" placeholder="ID" onkeyup="syncText('p-id', 'vp-id')">
-                <input type="text" id="p-residencia" placeholder="Residencia" onkeyup="syncText('p-residencia', 'vp-residencia')">
-                <input type="text" id="p-trabajo" placeholder="Trabajo" onkeyup="syncText('p-trabajo', 'vp-trabajo')">
-                <input type="text" id="p-cargos" placeholder="Cargos" onkeyup="syncText('p-cargos', 'vp-cargos')">
-                <textarea id="p-extra" placeholder="Info Adicional" onkeyup="syncText('p-extra', 'vp-extra')"></textarea>
-                <div class="nav-btns">
-                    <button class="btn-save" onclick="downloadImg('perfil-preview')">DESCARGAR IMAGEN</button>
-                    <button class="btn-back" onclick="goHome()">VOLVER</button>
-                </div>
-            </div>
-            <div class="preview-area">
-                <div id="perfil-preview" class="pc-frame">
-                    <div class="pc-top">OS_DATABASE v2.0 - USER_PROFILE</div>
-                    <div class="pc-content">
-                        <div class="pc-sidebar">
-                            <div class="p-photo-circle" id="p-photo-div"></div>
-                            <h3 id="vp-nombre">USER_NAME</h3>
-                            <p id="vp-trabajo" style="color:#0f0">CARGO_ACTUAL</p>
-                        </div>
-                        <div class="pc-main">
-                            <div class="pc-grid">
-                                <span><strong>EDAD:</strong> <span id="vp-edad"></span></span>
+    <script src="script.js"></script>
+</body>
+</html>
