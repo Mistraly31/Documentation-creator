@@ -1,38 +1,52 @@
-const themeToggle = document.getElementById('theme-toggle');
-const html = document.documentElement;
-
 // Cambio de Tema
+const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
-    const currentTheme = html.getAttribute('data-theme');
+    const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
 });
 
-const config = {
-    tarjeta: ["Nombre", "Edad", "Sexo", "Raza", "Número ID", "Residencia"],
-    documento: ["Título", "Fecha", "Ubicación", "Autor", "Texto"],
-    perfil: ["Nombre", "Edad", "Sexo", "Raza", "Número ID", "Residencia", "Trabajo", "Cargos", "Información Adicional"]
-};
-
-function showSection(type) {
-    document.getElementById('home-menu').style.display = 'none';
-    const formContainer = document.getElementById('form-container');
-    const fieldsDiv = document.getElementById('fields');
-    formContainer.style.display = 'block';
-    fieldsDiv.innerHTML = ''; // Limpiar
-
-    config[type].forEach(field => {
-        const input = field === "Texto" || field === "Información Adicional" 
-            ? document.createElement('textarea') 
-            : document.createElement('input');
-        input.placeholder = field;
-        input.id = `input-${field.replace(/\s/g, '')}`;
-        fieldsDiv.appendChild(input);
-    });
-
-    document.getElementById('create-btn').onclick = () => generateImage(type);
+// Navegación simple
+function showSection(id) {
+    document.getElementById('main-menu').classList.add('hidden');
+    document.querySelectorAll('.form-section').forEach(s => s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 }
 
 function goBack() {
-    location.reload();
+    document.getElementById('main-menu').classList.remove('hidden');
+    document.querySelectorAll('.form-section').forEach(s => s.classList.add('hidden'));
 }
+
+// Función para generar y descargar la imagen
+function generateImage(elementId) {
+    // Aquí podrías agregar lógica para actualizar los campos del preview antes de capturar
+    // Ejemplo para Tarjeta:
+    if(elementId === 'tarjeta-preview') {
+        const nombre = document.getElementById('t-nombre').value;
+        const idNum = document.getElementById('t-id').value;
+        document.getElementById('t-info').innerText = `${nombre} - ID: ${idNum}`;
+    }
+
+    const element = document.getElementById(elementId);
+    
+    html2canvas(element).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'system-image.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+// Lógica para previsualizar imágenes cargadas (opcional pero recomendado)
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.onchange = evt => {
+        const [file] = input.files;
+        if (file) {
+            const previewId = input.id.startsWith('t') ? 't-preview-img' : 'p-preview-img';
+            const imgEl = document.getElementById(previewId);
+            imgEl.src = URL.createObjectURL(file);
+            imgEl.style.display = 'block';
+        }
+    }
+});
