@@ -3,81 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM - Image Generator</title>
+    <title>SYSTEM - Creator</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
     <nav>
-        <button id="theme-toggle">Cambiar Tema</button>
+        <button id="theme-toggle">CAMBIAR TEMA</button>
     </nav>
 
-    <header>
+    <header id="main-header">
         <h1 class="main-title">SYSTEM</h1>
     </header>
 
     <main id="main-menu">
         <div class="options-container">
-            <button onclick="showSection('tarjeta-section')">Tarjeta</button>
-            <button onclick="showSection('documento-section')">Documento</button>
-            <button onclick="showSection('perfil-section')">Perfil</button>
+            <button onclick="showSection('tarjeta-section')">TARJETA</button>
+            <button onclick="showSection('documento-section')">DOCUMENTO</button>
+            <button onclick="showSection('perfil-section')">PERFIL</button>
         </div>
     </main>
 
     <section id="tarjeta-section" class="form-section hidden">
-        <h2>Crear Tarjeta</h2>
-        <div class="form-group">
-            <input type="file" id="t-img" accept="image/*">
-            <input type="text" id="t-nombre" placeholder="Nombre">
-            <input type="number" id="t-edad" placeholder="Edad">
-            <input type="text" id="t-sexo" placeholder="Sexo">
-            <input type="text" id="t-raza" placeholder="Raza">
-            <input type="text" id="t-id" placeholder="Número ID">
-            <input type="text" id="t-residencia" placeholder="Residencia">
-            <button onclick="generateImage('tarjeta-preview')">Crear</button>
-            <button onclick="goBack()">Volver</button>
-        </div>
-        <div id="tarjeta-preview" class="preview-card">
-            <div class="card-content">
-                <img id="t-preview-img" src="" style="width:100px; display:none;">
-                <div id="t-info"></div>
+        <div class="editor-container">
+            <div class="inputs">
+                <h3>Datos de Tarjeta</h3>
+                <input type="file" id="t-img-input" accept="image/*">
+                <input type="text" id="t-nombre" placeholder="Nombre" oninput="updateCard()">
+                <input type="text" id="t-edad" placeholder="Edad" oninput="updateCard()">
+                <input type="text" id="t-sexo" placeholder="Sexo" oninput="updateCard()">
+                <input type="text" id="t-raza" placeholder="Raza" oninput="updateCard()">
+                <input type="text" id="t-id" placeholder="Número ID" oninput="updateCard()">
+                <input type="text" id="t-residencia" placeholder="Residencia" oninput="updateCard()">
+                <div class="actions">
+                    <button class="btn-create" onclick="download('tarjeta-preview')">CREAR</button>
+                    <button onclick="goBack()">VOLVER</button>
+                </div>
+            </div>
+            <div id="tarjeta-preview" class="dni-card">
+                <div class="dni-photo" id="t-photo-div"></div>
+                <div class="dni-data">
+                    <p><strong>NAME:</strong> <span id="vt-nombre"></span></p>
+                    <p><strong>AGE:</strong> <span id="vt-edad"></span></p>
+                    <p><strong>SEX:</strong> <span id="vt-sexo"></span></p>
+                    <p><strong>RACE:</strong> <span id="vt-raza"></span></p>
+                    <p><strong>ID:</strong> <span id="vt-id"></span></p>
+                    <p><strong>RESIDENCE:</strong> <span id="vt-residencia"></span></p>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="documento-section" class="form-section hidden">
-        <h2>Crear Documento</h2>
-        <div class="form-group">
-            <input type="text" id="d-titulo" placeholder="Título">
-            <input type="text" id="d-fecha" placeholder="Fecha">
-            <input type="text" id="d-ubicacion" placeholder="Ubicación">
-            <input type="text" id="d-autor" placeholder="Autor">
-            <textarea id="d-texto" placeholder="Texto del documento"></textarea>
-            <button onclick="generateImage('documento-preview')">Crear</button>
-            <button onclick="goBack()">Volver</button>
-        </div>
-        <div id="documento-preview" class="preview-doc">
-            <h1 id="d-view-titulo"></h1>
-            <p><small id="d-view-meta"></small></p>
-            <p id="d-view-texto"></p>
+        <div class="editor-container">
+            <div class="inputs">
+                <h3>Datos de Documento</h3>
+                <input type="text" id="d-titulo" placeholder="Título" oninput="updateDoc()">
+                <input type="text" id="d-fecha" placeholder="Fecha" oninput="updateDoc()">
+                <input type="text" id="d-ubicacion" placeholder="Ubicación" oninput="updateDoc()">
+                <input type="text" id="d-autor" placeholder="Autor" oninput="updateDoc()">
+                <textarea id="d-texto" placeholder="Escribe el texto aquí..." oninput="updateDoc()"></textarea>
+                <div class="actions">
+                    <button class="btn-create" onclick="download('documento-preview')">CREAR</button>
+                    <button onclick="goBack()">VOLVER</button>
+                </div>
+            </div>
+            <div id="documento-preview" class="paper-sheet">
+                <h1 id="vd-titulo">TÍTULO</h1>
+                <div class="doc-meta">
+                    <span id="vd-fecha"></span> | <span id="vd-ubicacion"></span> | <span id="vd-autor"></span>
+                </div>
+                <hr>
+                <p id="vd-texto"></p>
+            </div>
         </div>
     </section>
 
     <section id="perfil-section" class="form-section hidden">
-        <h2>Crear Perfil</h2>
-        <div class="form-group">
-            <input type="file" id="p-img" accept="image/*">
-            <input type="text" id="p-nombre" placeholder="Nombre">
-            <input type="text" id="p-trabajo" placeholder="Trabajo">
-            <input type="text" id="p-cargos" placeholder="Cargos">
-            <textarea id="p-extra" placeholder="Información Adicional"></textarea>
-            <button onclick="generateImage('perfil-preview')">Crear</button>
-            <button onclick="goBack()">Volver</button>
-        </div>
-        <div id="perfil-preview" class="preview-profile">
-            <img id="p-preview-img" src="" style="width:120px; border-radius: 50%; display:none;">
-            <div id="p-info"></div>
+        <div class="editor-container">
+            <div class="inputs">
+                <h3>Datos de Perfil</h3>
+                <input type="file" id="p-img-input" accept="image/*">
+                <input type="text" id="p-nombre" placeholder="Nombre" oninput="updateProfile()">
+                <input type="text" id="p-edad" placeholder="Edad" oninput="updateProfile()">
+                <input type="text" id="p-sexo" placeholder="Sexo" oninput="updateProfile()">
+                <input type="text" id="p-raza" placeholder="Raza" oninput="updateProfile()">
+                <input type="text" id="p-id" placeholder="Número ID" oninput="updateProfile()">
+                <input type="text" id="p-residencia" placeholder="Residencia" oninput="updateProfile()">
+                <input type="text" id="p-trabajo" placeholder="Trabajo" oninput="updateProfile()">
+                <input type="text" id="p-cargos" placeholder="Cargos" oninput="updateProfile()">
+                <textarea id="p-extra" placeholder="Información Adicional" oninput="updateProfile()"></textarea>
+                <div class="actions">
+                    <button class="btn-create" onclick="download('perfil-preview')">CREAR</button>
+                    <button onclick="goBack()">VOLVER</button>
+                </div>
+            </div>
+            <div id="perfil-preview" class="pc-screen">
+                <div class="screen-header">USER_PROFILE_OS [v.1.0]</div>
+                <div class="screen-body">
+                    <div class="side-bar">
+                        <div class="p-photo" id="p-photo-div"></div>
+                        <h2 id="vp-nombre">NOMBRE</h2>
+                        <p id="vp-trabajo">TRABAJO</p>
+                    </div>
+                    <div class="main-content">
+                        <div class="grid-info">
+                            <p><strong>EDAD:</strong> <span id="vp-edad"></span></p>
+                            <p><strong>SEXO:</strong> <span id="vp-sexo"></span></p>
+                            <p><strong>RAZA:</strong> <span id="vp-raza"></span></p>
+                            <p><strong>ID:</strong> <span id="vp-id"></span></p>
+                        </div>
+                        <p><strong>RESIDENCIA:</strong> <span id="vp-residencia"></span></p>
+                        <p><strong>CARGOS:</strong> <span id="vp-cargos"></span></p>
+                        <div class="extra-box">
+                            <strong>INFO ADICIONAL:</strong>
+                            <p id="vp-extra"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
