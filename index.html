@@ -9,26 +9,78 @@
 </head>
 <body>
 
-    <header>
+    <nav>
         <button id="theme-toggle">Cambiar Tema</button>
-        <h1 class="logo">SYSTEM</h1>
+    </nav>
+
+    <header>
+        <h1 class="main-title">SYSTEM</h1>
     </header>
 
-    <main id="home-menu">
-        <button onclick="showSection('tarjeta')">Tarjeta</button>
-        <button onclick="showSection('documento')">Documento</button>
-        <button onclick="showSection('perfil')">Perfil</button>
+    <main id="main-menu">
+        <div class="options-container">
+            <button onclick="showSection('tarjeta-section')">Tarjeta</button>
+            <button onclick="showSection('documento-section')">Documento</button>
+            <button onclick="showSection('perfil-section')">Perfil</button>
+        </div>
     </main>
 
-    <section id="form-container" style="display: none;">
-        <button onclick="goBack()">⬅ Volver</button>
-        <div id="fields"></div>
-        <button id="create-btn" class="primary-btn">Crear Imagen</button>
+    <section id="tarjeta-section" class="form-section hidden">
+        <h2>Crear Tarjeta</h2>
+        <div class="form-group">
+            <input type="file" id="t-img" accept="image/*">
+            <input type="text" id="t-nombre" placeholder="Nombre">
+            <input type="number" id="t-edad" placeholder="Edad">
+            <input type="text" id="t-sexo" placeholder="Sexo">
+            <input type="text" id="t-raza" placeholder="Raza">
+            <input type="text" id="t-id" placeholder="Número ID">
+            <input type="text" id="t-residencia" placeholder="Residencia">
+            <button onclick="generateImage('tarjeta-preview')">Crear</button>
+            <button onclick="goBack()">Volver</button>
+        </div>
+        <div id="tarjeta-preview" class="preview-card">
+            <div class="card-content">
+                <img id="t-preview-img" src="" style="width:100px; display:none;">
+                <div id="t-info"></div>
+            </div>
+        </div>
     </section>
 
-    <div id="capture-area" class="preview-card"></div>
+    <section id="documento-section" class="form-section hidden">
+        <h2>Crear Documento</h2>
+        <div class="form-group">
+            <input type="text" id="d-titulo" placeholder="Título">
+            <input type="text" id="d-fecha" placeholder="Fecha">
+            <input type="text" id="d-ubicacion" placeholder="Ubicación">
+            <input type="text" id="d-autor" placeholder="Autor">
+            <textarea id="d-texto" placeholder="Texto del documento"></textarea>
+            <button onclick="generateImage('documento-preview')">Crear</button>
+            <button onclick="goBack()">Volver</button>
+        </div>
+        <div id="documento-preview" class="preview-doc">
+            <h1 id="d-view-titulo"></h1>
+            <p><small id="d-view-meta"></small></p>
+            <p id="d-view-texto"></p>
+        </div>
+    </section>
+
+    <section id="perfil-section" class="form-section hidden">
+        <h2>Crear Perfil</h2>
+        <div class="form-group">
+            <input type="file" id="p-img" accept="image/*">
+            <input type="text" id="p-nombre" placeholder="Nombre">
+            <input type="text" id="p-trabajo" placeholder="Trabajo">
+            <input type="text" id="p-cargos" placeholder="Cargos">
+            <textarea id="p-extra" placeholder="Información Adicional"></textarea>
+            <button onclick="generateImage('perfil-preview')">Crear</button>
+            <button onclick="goBack()">Volver</button>
+        </div>
+        <div id="perfil-preview" class="preview-profile">
+            <img id="p-preview-img" src="" style="width:120px; border-radius: 50%; display:none;">
+            <div id="p-info"></div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
-    <script src="generator.js"></script>
 </body>
 </html>
